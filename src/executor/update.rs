@@ -32,6 +32,16 @@ where
             .exec_update_and_return_updated(self.model, db)
             .await
     }
+    
+    /// Execute an update without returning
+    pub async fn exec_without_returning<C>(self, db: &C) -> Result<UpdateResult, DbErr>
+    where
+        C: ConnectionTrait,
+    {
+        Updater::new(self.query)
+            .exec(db)
+            .await
+    }
 }
 
 impl<'a, E> UpdateMany<E>
